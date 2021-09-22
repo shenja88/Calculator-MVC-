@@ -3,13 +3,11 @@ package by.voluevich.calc.utils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
-@ComponentScan("by.voluevich.calc.entity")
-@EnableAspectJAutoProxy
+@ComponentScan("by.voluevich.calc")
 public class WebConfiguration {
 
     @Bean

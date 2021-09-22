@@ -2,5 +2,7 @@ package by.voluevich.calc.service.operations;
 
 public interface Operation {
 
-    int calculate(int a, int b);
+    double calculate(double a, double b);
+
+    String getName();
 }

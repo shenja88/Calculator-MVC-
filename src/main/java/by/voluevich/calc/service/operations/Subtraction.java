@@ -1,9 +1,17 @@
 package by.voluevich.calc.service.operations;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Subtraction implements Operation {
 
     @Override
-    public int calculate(int a, int b) {
-        return Math.subtractExact(a, b);
+    public double calculate(double a, double b) {
+        return a - b;
+    }
+
+    @Override
+    public String getName() {
+        return "subtraction";
     }
 }
