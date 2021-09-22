@@ -18,7 +18,6 @@ import java.util.List;
 public class CalcController {
     private final CalcService calcService;
 
-    @Autowired
     public CalcController(CalcService calcService) {
         this.calcService = calcService;
     }
@@ -31,14 +30,15 @@ public class CalcController {
     @PostMapping
     public String calc(MathOperation operation, Model model, HttpSession httpSession){
         operation.setUser((User) httpSession.getAttribute("user"));
-        calcService.getResult(operation);
-        model.addAttribute("result", operation.getResult());
+        MathOperation mathOperation = calcService.getResult(operation);
+        model.addAttribute("result", mathOperation.getResult());
         return "calc";
     }
 
     @GetMapping("/history")
-    public String getHistory(Model model){
-        List<MathOperation> mathOperationList = calcService.getMathOperationList();
+    public String getHistory(Model model, HttpSession httpSession){
+        User user  = (User) httpSession.getAttribute("user");
+        List<MathOperation> mathOperationList = calcService.getMathOperationList(user);
         model.addAttribute("history_list", mathOperationList);
         return "history";
     }

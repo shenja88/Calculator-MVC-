@@ -2,7 +2,6 @@ package by.voluevich.calc.controller;
 
 import by.voluevich.calc.entity.User;
 import by.voluevich.calc.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,6 @@ import javax.servlet.http.HttpSession;
 public class AccountController {
     private final UserService userService;
 
-    @Autowired
     public AccountController(UserService userService) {
         this.userService = userService;
     }
@@ -36,12 +34,12 @@ public class AccountController {
         return "main";
     }
 
-    @GetMapping("/sign_in")
+    @GetMapping("/signIn")
     public String signInForm() {
         return "sign_in";
     }
 
-    @PostMapping("/sign_in")
+    @PostMapping("/signIn")
     public String getSignIn(User user, Model model, HttpSession httpSession) {
         if (userService.isExistUser(user)) {
             User userForSession = userService.getByLogin(user.getLogin());
@@ -85,9 +83,9 @@ public class AccountController {
         return "update_pass";
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/logOut")
     public String logOut(HttpSession session){
         session.invalidate();
-        return "main";
+        return "redirect:/main";
     }
 }

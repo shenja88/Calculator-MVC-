@@ -1,4 +1,4 @@
-package by.voluevich.calc.utils;
+package by.voluevich.calc.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

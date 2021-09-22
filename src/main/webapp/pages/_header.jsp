@@ -26,7 +26,7 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <c:if test="${sessionScope.user == null}">
                     <li><a href="/account/reg" class="nav-link px-2 link-dark border border-3 border-dark rounded me-1 bg-success p-2 bg-opacity-75">Registration</a></li>
-                    <li><a href="/account/sign_in" class="nav-link px-2 link-dark border border-3 border-dark rounded me-1 bg-success p-2 bg-opacity-75">Sign in</a></li>
+                    <li><a href="/account/signIn" class="nav-link px-2 link-dark border border-3 border-dark rounded me-1 bg-success p-2 bg-opacity-75">Sign in</a></li>
                     <li class="nav-item"><a class="nav-link disabled text-dark" href="#" tabindex="-1" aria-disabled="true">Hello
                         guest!</a></li>
                 </c:if>
@@ -46,9 +46,9 @@
                     </a>
                     <ul class="dropdown-menu text-big" aria-labelledby="dropdownUser1" style="">
                         <li><a href="/account/updatePass" class="nav-link px-2 link-dark">Edit password</a></li>
-                        <li><hr class="dropdown-divider"></li>
                         <li><a href="/account/updateName" class="nav-link px-2 link-dark">Edit name</a></li>
-                        <li><a href="/account/logout" class="nav-link px-2 link-dark">Log out</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a href="/account/logOut" class="nav-link px-2 link-dark">Log out</a></li>
                     </ul>
                 </div>
             </c:if>

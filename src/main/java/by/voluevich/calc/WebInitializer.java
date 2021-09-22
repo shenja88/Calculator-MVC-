@@ -1,5 +1,6 @@
-package by.voluevich.calc.utils;
+package by.voluevich.calc;
 
+import by.voluevich.calc.configuration.WebConfiguration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
