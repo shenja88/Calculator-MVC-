@@ -3,7 +3,7 @@ package by.voluevich.calc.controller;
 import by.voluevich.calc.entity.MathOperation;
 import by.voluevich.calc.entity.User;
 import by.voluevich.calc.service.CalcService;
-import org.springframework.beans.factory.annotation.Autowired;
+import by.voluevich.calc.service.OperationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,22 +23,23 @@ public class CalcController {
     }
 
     @GetMapping
-    public String calcForm(){
+    public String calcForm(Model model){
+        model.addAttribute("operations", OperationManager.getNameOperations());
         return "calc";
     }
 
     @PostMapping
-    public String calc(MathOperation operation, Model model, HttpSession httpSession){
-        operation.setUser((User) httpSession.getAttribute("user"));
-        MathOperation mathOperation = calcService.getResult(operation);
-        model.addAttribute("result", mathOperation.getResult());
+    public String calc(MathOperation operation, Model model, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        MathOperation mathOperation = calcService.getResult(operation, user);
+        model.addAttribute("result_operation", mathOperation);
         return "calc";
     }
 
     @GetMapping("/history")
     public String getHistory(Model model, HttpSession httpSession){
         User user  = (User) httpSession.getAttribute("user");
-        List<MathOperation> mathOperationList = calcService.getMathOperationList(user);
+        List<MathOperation> mathOperationList = calcService.getHistory(user);
         model.addAttribute("history_list", mathOperationList);
         return "history";
     }

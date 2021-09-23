@@ -1,8 +1,5 @@
 package by.voluevich.calc.service.operations;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class Multiplication implements Operation {
 
     @Override
@@ -10,8 +7,4 @@ public class Multiplication implements Operation {
         return a * b;
     }
 
-    @Override
-    public String getName() {
-        return "multiplication";
-    }
 }

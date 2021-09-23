@@ -2,13 +2,16 @@ package by.voluevich.calc.controller;
 
 import by.voluevich.calc.entity.User;
 import by.voluevich.calc.service.UserService;
+import by.voluevich.calc.utils.ControllerMessageManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/account")
@@ -25,13 +28,16 @@ public class AccountController {
     }
 
     @PostMapping("/reg")
-    public String getReg(User user, Model model) {
-        if (userService.saveUser(user)) {
-            model.addAttribute("message_reg", "Registration successful!");
-        } else {
-            model.addAttribute("message_reg", "Registration failed!");
+    public String getReg(@Valid User user, BindingResult bindingResult, Model model) {
+        if(!bindingResult.hasErrors()){
+            if (userService.saveUser(user)) {
+                model.addAttribute("message_reg", ControllerMessageManager.REG_DONE);
+            } else {
+                model.addAttribute("message_reg", ControllerMessageManager.REG_FAIL);
+            }
+            return "redirect:/main";
         }
-        return "main";
+        return "registration";
     }
 
     @GetMapping("/signIn")
@@ -40,15 +46,18 @@ public class AccountController {
     }
 
     @PostMapping("/signIn")
-    public String getSignIn(User user, Model model, HttpSession httpSession) {
-        if (userService.isExistUser(user)) {
-            User userForSession = userService.getByLogin(user.getLogin());
-            model.addAttribute("message_auth", "Successful authorization!");
-            httpSession.setAttribute("user", userForSession);
-        } else {
-            model.addAttribute("message_auth", "Authorization failed!");
+    public String getSignIn(@Valid User user, BindingResult bindingResult, Model model, HttpSession session) {
+        if(!bindingResult.hasErrors()) {
+            if (userService.signIn(user)) {
+                User userForSession = userService.getByLogin(user.getEmail());
+                model.addAttribute("message_auth", ControllerMessageManager.AUTH_DONE);
+                session.setAttribute("user", userForSession);
+            } else {
+                model.addAttribute("message_auth", ControllerMessageManager.AUTH_FAIL);
+            }
+            return "redirect:/main";
         }
-        return "main";
+        return "sign_in";
     }
 
     @GetMapping("/updateName")
@@ -60,9 +69,9 @@ public class AccountController {
     public String updateName(String newName, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
         if (userService.updateName(newName, user)) {
-            model.addAttribute("message_upd_name", "Successful operation!");
+            model.addAttribute("message_upd_name", ControllerMessageManager.OPERATION_DONE);
         } else {
-            model.addAttribute("message_upd_name", "Operation failed!");
+            model.addAttribute("message_upd_name", ControllerMessageManager.OPERATION_FAIL);
         }
         return "update_name";
     }
@@ -76,9 +85,9 @@ public class AccountController {
     public String updatePass(String oldPass, String newPass, HttpSession session, Model model){
         User user = (User) session.getAttribute("user");
         if(userService.updatePass(oldPass, newPass, user)){
-            model.addAttribute("message_upd_pass", "Successful operation!");
+            model.addAttribute("message_upd_pass", ControllerMessageManager.OPERATION_DONE);
         }else{
-            model.addAttribute("message_upd_pass", "Operation failed!");
+            model.addAttribute("message_upd_pass", ControllerMessageManager.OPERATION_FAIL);
         }
         return "update_pass";
     }

@@ -1,45 +1,35 @@
 package by.voluevich.calc.service;
 
+import by.voluevich.calc.dao.MathOperationDao;
 import by.voluevich.calc.entity.MathOperation;
 import by.voluevich.calc.entity.User;
 import by.voluevich.calc.service.operations.Operation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CalcService {
-    private List<Operation> operationList;
-    private final List<MathOperation> mathOperationList  = new ArrayList<>();
+    private final MathOperationDao mathOperationDao;
 
-    @Autowired
-    public CalcService(List<Operation> operationList) {
-        this.operationList = operationList;
+    public CalcService(MathOperationDao mathOperationDao) {
+        this.mathOperationDao = mathOperationDao;
     }
 
-    public CalcService() {
+    public MathOperationDao getMathOperationDao() {
+        return mathOperationDao;
     }
 
-    public List<Operation> getOperationList() {
-        return operationList;
+    public List<MathOperation> getHistory(User user) {
+        return mathOperationDao.getBySession(user);
     }
 
-    public List<MathOperation> getMathOperationList(User user) {
-        return mathOperationList.stream().filter(u -> u.getUser().equals(user)).collect(Collectors.toList());
-    }
+    public MathOperation getResult(MathOperation mathOperation, User user){
+        mathOperation.setUser(user);
+        Operation operation = OperationManager.getOperation(mathOperation.getType());
 
-    public MathOperation getResult(MathOperation mathOperation){
-        for (Operation op : operationList){
-            if(op.getName().equals(mathOperation.getType())){
-                mathOperation.setResult(op.calculate(mathOperation.getNumOne(), mathOperation.getNumTwo()));
-            }
-        }
-        mathOperationList.add(mathOperation);
+        mathOperation.setResult(operation.calculate(mathOperation.getNumOne(), mathOperation.getNumTwo()));
+        mathOperationDao.save(mathOperation);
         return mathOperation;
     }
-
-
 }
