@@ -17,6 +17,7 @@
 <jsp:include page="_header.jsp"/>
 <div class="container">
     <div class="row justify-content-center">
+        <h1 class="display-4" align="center">Your history operations</h1>
         <div class="col-sm-6">
             <div>
                 <ol class="list-group list-group m-3">

@@ -31,11 +31,11 @@ public class AccountController {
 
     @PostMapping("/reg")
     public String getReg(@Valid @ModelAttribute("newUser") User user, BindingResult bindingResult, Model model) {
-        if(!bindingResult.hasErrors()){
+        if (!bindingResult.hasErrors()) {
             if (userService.saveUser(user)) {
                 model.addAttribute("message_reg", ControllerMessageManager.REG_DONE);
                 return "registration";
-            }else {
+            } else {
                 model.addAttribute("message_reg", ControllerMessageManager.REG_FAIL);
             }
         }
@@ -50,16 +50,14 @@ public class AccountController {
     }
 
     @PostMapping("/signIn")
-    public String getSignIn(@Valid @ModelAttribute("newUser") User user, BindingResult bindingResult, Model model, HttpSession session) {
-        if(!bindingResult.hasErrors()) {
-            if (userService.signIn(user)) {
-                User userForSession = userService.getByLogin(user.getEmail());
-                model.addAttribute("message_auth", ControllerMessageManager.AUTH_DONE);
-                session.setAttribute("user", userForSession);
-                return "sign_in";
-            } else {
-                model.addAttribute("message_auth", ControllerMessageManager.AUTH_FAIL);
-            }
+    public String getSignIn(@ModelAttribute("newUser") User user, Model model, HttpSession session) {
+        if (userService.signIn(user)) {
+            User userForSession = userService.getByLogin(user.getEmail());
+            model.addAttribute("message_auth", ControllerMessageManager.AUTH_DONE);
+            session.setAttribute("user", userForSession);
+            return "sign_in";
+        } else {
+            model.addAttribute("message_auth", ControllerMessageManager.AUTH_FAIL);
         }
         return "sign_in";
     }
@@ -86,18 +84,18 @@ public class AccountController {
     }
 
     @PostMapping("/updatePass")
-    public String updatePass(String oldPass, String newPass, HttpSession session, Model model){
+    public String updatePass(String oldPass, String newPass, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
-        if(userService.updatePass(oldPass, newPass, user)){
+        if (userService.updatePass(oldPass, newPass, user)) {
             model.addAttribute("message_upd_pass", ControllerMessageManager.OPERATION_DONE);
-        }else{
+        } else {
             model.addAttribute("message_upd_pass", ControllerMessageManager.OPERATION_FAIL);
         }
         return "update_pass";
     }
 
     @GetMapping("/logOut")
-    public String logOut(HttpSession session){
+    public String logOut(HttpSession session) {
         session.invalidate();
         return "redirect:/main";
     }

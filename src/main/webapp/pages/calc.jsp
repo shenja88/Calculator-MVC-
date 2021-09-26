@@ -17,17 +17,23 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-4 m5 bg-success p-2 text-dark bg-opacity-10 rounded">
-        <s:form method="post" action="/calc" modelAttribute="mathOperation">
-            <s:label path="numOne" class="col-sm col-form-label" >Num one</s:label>
-            <s:input path="numOne" class="form-control"/>
-            <s:errors path="numOne"/>
-            <s:label path="numTwo" cclass="col-sm col-form-label">Num two</s:label>
-            <s:input path="numTwo" class="form-control"/>
-            <s:errors path="numTwo"/>
-            <s:label path="type" class="col-sm col-form-label">Type operation</s:label>
-            <s:select path="type" class="form-select form-select-sm-3" items="${operations}"/>
-            <s:button class="btn btn-primary m-2">Submit</s:button>
-        </s:form>
+            <s:form method="post" action="/calc" modelAttribute="mathOperation">
+                <div>
+                    <s:label path="numOne" class="col-sm col-form-label">Num one</s:label>
+                    <s:input path="numOne" class="form-control" type="number" step="0.0000000000001"/>
+                    <s:errors path="numOne"/>
+                </div>
+                <div>
+                    <s:label path="numTwo" cclass="col-sm col-form-label">Num two</s:label>
+                    <s:input path="numTwo" class="form-control" type="number" step="0.0000000000001"/>
+                    <s:errors path="numTwo"/>
+                </div>
+                <div>
+                    <s:label path="type" class="col-sm col-form-label">Type operation</s:label>
+                    <s:select path="type" class="form-select form-select-sm-3" items="${operations}"/>
+                </div>
+                <s:button class="btn btn-primary m-2">Submit</s:button>
+            </s:form>
         </div>
     </div>
     <div class="row justify-content-center">
