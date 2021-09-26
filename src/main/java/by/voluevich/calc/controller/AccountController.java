@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,39 +24,42 @@ public class AccountController {
     }
 
     @GetMapping("/reg")
-    public String regForms() {
+    public String regForms(Model model) {
+        model.addAttribute("newUser", new User());
         return "registration";
     }
 
     @PostMapping("/reg")
-    public String getReg(@Valid User user, BindingResult bindingResult, Model model) {
+    public String getReg(@Valid @ModelAttribute("newUser") User user, BindingResult bindingResult, Model model) {
         if(!bindingResult.hasErrors()){
             if (userService.saveUser(user)) {
                 model.addAttribute("message_reg", ControllerMessageManager.REG_DONE);
-            } else {
+                return "registration";
+            }else {
                 model.addAttribute("message_reg", ControllerMessageManager.REG_FAIL);
             }
-            return "redirect:/main";
         }
+
         return "registration";
     }
 
     @GetMapping("/signIn")
-    public String signInForm() {
+    public String signInForm(Model model) {
+        model.addAttribute("newUser", new User());
         return "sign_in";
     }
 
     @PostMapping("/signIn")
-    public String getSignIn(@Valid User user, BindingResult bindingResult, Model model, HttpSession session) {
+    public String getSignIn(@Valid @ModelAttribute("newUser") User user, BindingResult bindingResult, Model model, HttpSession session) {
         if(!bindingResult.hasErrors()) {
             if (userService.signIn(user)) {
                 User userForSession = userService.getByLogin(user.getEmail());
                 model.addAttribute("message_auth", ControllerMessageManager.AUTH_DONE);
                 session.setAttribute("user", userForSession);
+                return "sign_in";
             } else {
                 model.addAttribute("message_auth", ControllerMessageManager.AUTH_FAIL);
             }
-            return "redirect:/main";
         }
         return "sign_in";
     }

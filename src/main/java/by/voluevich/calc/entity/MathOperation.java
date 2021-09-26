@@ -14,12 +14,12 @@ import javax.validation.constraints.Pattern;
 @Data @AllArgsConstructor @NoArgsConstructor @EqualsAndHashCode
 public class MathOperation {
 
-    @NotBlank
+    @NotBlank(message = ErrorMessageManager.NUMBER_ERROR)
     @Max(9223372036854775807L)
     @Pattern(regexp = "^[0-9]*[.,]?[0-9]{1,5}$", message = ErrorMessageManager.NUMBER_ERROR)
     private double numOne;
 
-    @NotBlank
+    @NotBlank(message = ErrorMessageManager.NUMBER_ERROR)
     @Max(9223372036854775807L)
     @Pattern(regexp = "^[0-9]*[.,]?[0-9]{1,5}$", message = ErrorMessageManager.NUMBER_ERROR)
     private double numTwo;

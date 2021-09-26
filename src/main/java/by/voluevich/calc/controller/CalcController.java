@@ -6,11 +6,14 @@ import by.voluevich.calc.service.CalcService;
 import by.voluevich.calc.service.OperationManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -25,14 +28,18 @@ public class CalcController {
     @GetMapping
     public String calcForm(Model model){
         model.addAttribute("operations", OperationManager.getNameOperations());
+        model.addAttribute("mathOperation", new MathOperation());
         return "calc";
     }
 
     @PostMapping
-    public String calc(MathOperation operation, Model model, HttpSession session){
-        User user = (User) session.getAttribute("user");
-        MathOperation mathOperation = calcService.getResult(operation, user);
-        model.addAttribute("result_operation", mathOperation);
+    public String calc(@Valid @ModelAttribute("mathOperation") MathOperation operation, BindingResult bindingResult, Model model, HttpSession session){
+        if(!bindingResult.hasErrors()) {
+            User user = (User) session.getAttribute("user");
+            MathOperation mathOperation = calcService.getResult(operation, user);
+            model.addAttribute("result_operation", mathOperation);
+            model.addAttribute("operations", OperationManager.getNameOperations());
+        }
         return "calc";
     }
 

@@ -1,34 +1,34 @@
 <%--
   Created by IntelliJ IDEA.
   User: A E S T H E T I C
-  Date: 21.09.2021
-  Time: 22:17
+  Date: 19.08.2021
+  Time: 19:25
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="s" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>Sign In</title>
+    <title>Account</title>
 </head>
 <body>
 <jsp:include page="_header.jsp"/>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-sm-4 m5 bg-success p-2 text-dark bg-opacity-10 rounded">
-            <s:form method="post" action="/account/signIn" modelAttribute="newUser">
-                <s:label path="email" class="col-sm col-form-label">Email</s:label>
-                <s:input path="email" class="form-control"/>
-                <s:errors path="email" cssClass="result-item"/>
-                <s:label path="password" class="col-sm col-form-label">Password</s:label>
-                <s:input path="password" class="form-control"/>
-                <s:errors path="password" cssClass="result-item"/>
-                <s:button class="btn btn-primary m-2" >Submit</s:button>
-            </s:form>
+            <form action="/account/updateName" method="post">
+                <fieldset>
+                    <div class="m-1">
+                        <label for="inputNum2" class="col-sm col-form-label">Enter new name</label>
+                        <input required type="text" name="newName" class="form-control"
+                               id="inputNum2">
+                    </div>
+                    <button type="submit" class="btn btn-primary m-2">Submit</button>
+                </fieldset>
+            </form>
         </div>
     </div>
-    <c:if test="${message_auth != null}">
+    <c:if test="${message_upd_name != null}">
         <div class="row justify-content-center">
             <div class="col-sm-4">
                 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -47,7 +47,7 @@
                         <use href="#info-fill"></use>
                     </svg>
                     <div>
-                            ${message_auth}
+                            ${message_upd_name}
                     </div>
                 </div>
             </div>
