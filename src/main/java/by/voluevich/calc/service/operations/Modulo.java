@@ -1,5 +1,8 @@
 package by.voluevich.calc.service.operations;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Modulo implements Operation {
 
     @Override

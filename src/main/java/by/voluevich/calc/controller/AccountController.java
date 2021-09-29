@@ -1,5 +1,7 @@
 package by.voluevich.calc.controller;
 
+import by.voluevich.calc.dto.UserAllFieldsDTO;
+import by.voluevich.calc.dto.UserEmailPassDTO;
 import by.voluevich.calc.entity.User;
 import by.voluevich.calc.service.UserService;
 import by.voluevich.calc.utils.ControllerMessageManager;
@@ -25,13 +27,14 @@ public class AccountController {
 
     @GetMapping("/reg")
     public String regForms(Model model) {
-        model.addAttribute("newUser", new User());
+        model.addAttribute("newUser", new UserAllFieldsDTO());
         return "registration";
     }
 
     @PostMapping("/reg")
-    public String getReg(@Valid @ModelAttribute("newUser") User user, BindingResult bindingResult, Model model) {
+    public String getReg(@Valid @ModelAttribute("newUser") UserAllFieldsDTO userDTO, BindingResult bindingResult, Model model) {
         if (!bindingResult.hasErrors()) {
+            User user = userDTO.getUser();
             if (userService.saveUser(user)) {
                 model.addAttribute("message_reg", ControllerMessageManager.REG_DONE);
                 return "registration";
@@ -39,25 +42,27 @@ public class AccountController {
                 model.addAttribute("message_reg", ControllerMessageManager.REG_FAIL);
             }
         }
-
         return "registration";
     }
 
     @GetMapping("/signIn")
     public String signInForm(Model model) {
-        model.addAttribute("newUser", new User());
+        model.addAttribute("newUser", new UserEmailPassDTO());
         return "sign_in";
     }
 
     @PostMapping("/signIn")
-    public String getSignIn(@ModelAttribute("newUser") User user, Model model, HttpSession session) {
-        if (userService.signIn(user)) {
-            User userForSession = userService.getByLogin(user.getEmail());
-            model.addAttribute("message_auth", ControllerMessageManager.AUTH_DONE);
-            session.setAttribute("user", userForSession);
-            return "sign_in";
-        } else {
-            model.addAttribute("message_auth", ControllerMessageManager.AUTH_FAIL);
+    public String getSignIn(@Valid @ModelAttribute("newUser") UserEmailPassDTO userDTO, BindingResult bindingResult, Model model, HttpSession session) {
+        if(!bindingResult.hasErrors()) {
+            User user = userDTO.getUser();
+            if (userService.signIn(user)) {
+                User userForSession = userService.getByLogin(user.getEmail());
+                model.addAttribute("message_auth", ControllerMessageManager.AUTH_DONE);
+                session.setAttribute("user", userForSession);
+                return "sign_in";
+            } else {
+                model.addAttribute("message_auth", ControllerMessageManager.AUTH_FAIL);
+            }
         }
         return "sign_in";
     }

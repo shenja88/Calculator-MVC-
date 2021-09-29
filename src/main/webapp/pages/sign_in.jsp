@@ -23,10 +23,16 @@
         <h1 class="display-3" align="center">Sign In</h1>
         <div class="col-sm-4 m5 bg-success p-2 text-dark bg-opacity-10 rounded">
             <s:form method="post" action="/account/signIn" modelAttribute="newUser">
-                <s:label path="email" class="col-sm col-form-label">Email</s:label>
-                <s:input path="email" class="form-control"/>
-                <s:label path="password" class="col-sm col-form-label">Password</s:label>
-                <s:input path="password" class="form-control"/>
+                <div>
+                    <s:label path="email" class="col-sm col-form-label">Email</s:label>
+                    <s:input path="email" class="form-control"/>
+                    <s:errors path="email" cssClass="result-item"/>
+                </div>
+                <div>
+                    <s:label path="password" class="col-sm col-form-label">Password</s:label>
+                    <s:input path="password" class="form-control"/>
+                    <s:errors path="password" cssClass="result-item"/>
+                </div>
                 <s:button class="btn btn-primary m-2" >Submit</s:button>
             </s:form>
         </div>

@@ -1,5 +1,6 @@
 package by.voluevich.calc.controller;
 
+import by.voluevich.calc.dto.MathOperationDTO;
 import by.voluevich.calc.entity.MathOperation;
 import by.voluevich.calc.entity.User;
 import by.voluevich.calc.service.CalcService;
@@ -20,25 +21,28 @@ import java.util.List;
 @RequestMapping("/calc")
 public class CalcController {
     private final CalcService calcService;
+    private final OperationManager operationManager;
 
-    public CalcController(CalcService calcService) {
+    public CalcController(CalcService calcService, OperationManager operationManager) {
         this.calcService = calcService;
+        this.operationManager = operationManager;
     }
 
     @GetMapping
     public String calcForm(Model model){
-        model.addAttribute("operations", OperationManager.getNameOperations());
-        model.addAttribute("mathOperation", new MathOperation());
+        model.addAttribute("operations", operationManager.getNameOperations());
+        model.addAttribute("mathOperation", new MathOperationDTO());
         return "calc";
     }
 
     @PostMapping
-    public String calc(@Valid @ModelAttribute("mathOperation") MathOperation operation, BindingResult bindingResult, Model model, HttpSession session){
+    public String calc(@Valid @ModelAttribute("mathOperation") MathOperationDTO mathOperationDTO, BindingResult bindingResult, Model model, HttpSession session){
         if(!bindingResult.hasErrors()) {
+            MathOperation operation = mathOperationDTO.getMathOperation();
             User user = (User) session.getAttribute("user");
-            MathOperation mathOperation = calcService.getResult(operation, user);
-            model.addAttribute("result_operation", mathOperation);
-            model.addAttribute("operations", OperationManager.getNameOperations());
+            MathOperation result = calcService.getResult(operation, user);
+            model.addAttribute("result_operation", result);
+            model.addAttribute("operations", operationManager.getNameOperations());
         }
         return "calc";
     }

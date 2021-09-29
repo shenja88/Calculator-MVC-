@@ -1,26 +1,29 @@
 package by.voluevich.calc.service;
 
 import by.voluevich.calc.service.operations.*;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component
 public class OperationManager {
-    private static final Map<String, Operation> OPERATIONS = new HashMap<>();
+    private List<Operation> operationList;
 
-    static {
-        OPERATIONS.put(Addition.class.getSimpleName(), new Addition());
-        OPERATIONS.put(Division.class.getSimpleName(), new Division());
-        OPERATIONS.put(Modulo.class.getSimpleName(), new Modulo());
-        OPERATIONS.put(Multiplication.class.getSimpleName(), new Multiplication());
-        OPERATIONS.put(Subtraction.class.getSimpleName(), new Subtraction());
+    public OperationManager(List<Operation> operationList) {
+        this.operationList = operationList;
     }
 
-    public static Set<String> getNameOperations(){
-        return OPERATIONS.keySet();
+    public List<String> getNameOperations(){
+        List<String> list = new ArrayList<>();
+        for (Operation op: operationList){
+           list.add(op.getClass().getSimpleName());
+        }
+        return list;
     }
 
-    public static Operation getOperation(String type){
-        return OPERATIONS.get(type);
+    public Operation getOperation(String type){
+        return operationList.stream().filter(op -> op.getClass().getSimpleName().equals(type)).findFirst().get();
+
     }
 
 }

@@ -11,13 +11,19 @@ import java.util.List;
 @Service
 public class CalcService {
     private final MathOperationDao mathOperationDao;
+    private final OperationManager operationManager;
 
-    public CalcService(MathOperationDao mathOperationDao) {
+    public CalcService(MathOperationDao mathOperationDao, OperationManager operationManager) {
         this.mathOperationDao = mathOperationDao;
+        this.operationManager = operationManager;
     }
 
     public MathOperationDao getMathOperationDao() {
         return mathOperationDao;
+    }
+
+    public OperationManager getOperationManager() {
+        return operationManager;
     }
 
     public List<MathOperation> getHistory(User user) {
@@ -26,7 +32,7 @@ public class CalcService {
 
     public MathOperation getResult(MathOperation mathOperation, User user){
         mathOperation.setUser(user);
-        Operation operation = OperationManager.getOperation(mathOperation.getType());
+        Operation operation = operationManager.getOperation(mathOperation.getType());
 
         mathOperation.setResult(operation.calculate(mathOperation.getNumOne(), mathOperation.getNumTwo()));
         mathOperationDao.save(mathOperation);

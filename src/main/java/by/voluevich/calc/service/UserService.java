@@ -2,7 +2,11 @@ package by.voluevich.calc.service;
 
 import by.voluevich.calc.dao.UserDao;
 import by.voluevich.calc.entity.User;
+import by.voluevich.calc.utils.Patterns;
 import org.springframework.stereotype.Service;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class UserService {
@@ -32,7 +36,7 @@ public class UserService {
     }
 
     public boolean updatePass(String oldPass, String newPass, User user){
-        if(user.getPassword().equals(oldPass) && !newPass.equals(oldPass)){
+        if(user.getPassword().equals(oldPass) && !newPass.equals(oldPass) && Pattern.matches(Patterns.PASSWORD, newPass)){
             return userDao.updatePassword(user, newPass);
         }
         return false;
