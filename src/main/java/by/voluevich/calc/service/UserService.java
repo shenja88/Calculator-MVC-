@@ -29,14 +29,17 @@ public class UserService {
     }
 
     public boolean updateName(String newName, User user){
-        if(!user.getName().equals(newName)){
+        if(!user.getName().equals(newName) && userDao.isExist(user)){
             return userDao.updateName(user, newName);
         }
         return false;
     }
 
     public boolean updatePass(String oldPass, String newPass, User user){
-        if(user.getPassword().equals(oldPass) && !newPass.equals(oldPass) && Pattern.matches(Patterns.PASSWORD, newPass)){
+        if(user.getPassword().equals(oldPass)
+                && !newPass.equals(oldPass)
+                && Pattern.matches(Patterns.PASSWORD, newPass)
+                && userDao.isExist(user)){
             return userDao.updatePassword(user, newPass);
         }
         return false;

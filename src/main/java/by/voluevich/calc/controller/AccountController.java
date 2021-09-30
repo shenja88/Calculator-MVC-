@@ -4,6 +4,7 @@ import by.voluevich.calc.dto.UserAllFieldsDTO;
 import by.voluevich.calc.dto.UserEmailPassDTO;
 import by.voluevich.calc.entity.User;
 import by.voluevich.calc.service.UserService;
+import by.voluevich.calc.utils.DTOConverter;
 import by.voluevich.calc.utils.ControllerMessageManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +35,7 @@ public class AccountController {
     @PostMapping("/reg")
     public String getReg(@Valid @ModelAttribute("newUser") UserAllFieldsDTO userDTO, BindingResult bindingResult, Model model) {
         if (!bindingResult.hasErrors()) {
-            User user = userDTO.getUser();
+            User user = DTOConverter.getUserAllField(userDTO);
             if (userService.saveUser(user)) {
                 model.addAttribute("message_reg", ControllerMessageManager.REG_DONE);
                 return "registration";
@@ -54,7 +55,7 @@ public class AccountController {
     @PostMapping("/signIn")
     public String getSignIn(@Valid @ModelAttribute("newUser") UserEmailPassDTO userDTO, BindingResult bindingResult, Model model, HttpSession session) {
         if(!bindingResult.hasErrors()) {
-            User user = userDTO.getUser();
+            User user = DTOConverter.getUserEmailPassFields(userDTO);
             if (userService.signIn(user)) {
                 User userForSession = userService.getByLogin(user.getEmail());
                 model.addAttribute("message_auth", ControllerMessageManager.AUTH_DONE);

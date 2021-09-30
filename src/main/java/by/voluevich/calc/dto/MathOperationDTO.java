@@ -26,7 +26,4 @@ public class MathOperationDTO {
     private double result;
     private User user;
 
-    public MathOperation getMathOperation(){
-        return new MathOperation(numOne, numTwo, type);
-    }
 }

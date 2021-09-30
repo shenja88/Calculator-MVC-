@@ -23,7 +23,4 @@ public class UserEmailPassDTO {
     @Pattern(regexp = Patterns.PASSWORD, message = ErrorMessageManager.PASSWORD_USER_ERROR)
     private String password;
 
-    public User getUser(){
-        return new User(email, password);
-    }
 }

@@ -1,7 +1,6 @@
 package by.voluevich.calc.configuration;
 
-import by.voluevich.calc.aspect.LogAspect;
-import by.voluevich.interceptors.SignInInterceptor;
+import by.voluevich.calc.interceptors.SignInInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

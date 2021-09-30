@@ -5,6 +5,7 @@ import by.voluevich.calc.entity.MathOperation;
 import by.voluevich.calc.entity.User;
 import by.voluevich.calc.service.CalcService;
 import by.voluevich.calc.service.OperationManager;
+import by.voluevich.calc.utils.DTOConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -38,7 +39,7 @@ public class CalcController {
     @PostMapping
     public String calc(@Valid @ModelAttribute("mathOperation") MathOperationDTO mathOperationDTO, BindingResult bindingResult, Model model, HttpSession session){
         if(!bindingResult.hasErrors()) {
-            MathOperation operation = mathOperationDTO.getMathOperation();
+            MathOperation operation = DTOConverter.getMathOperationNumAndTypeOp(mathOperationDTO);
             User user = (User) session.getAttribute("user");
             MathOperation result = calcService.getResult(operation, user);
             model.addAttribute("result_operation", result);

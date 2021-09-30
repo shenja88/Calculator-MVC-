@@ -1,4 +1,4 @@
-package by.voluevich.interceptors;
+package by.voluevich.calc.interceptors;
 
 import by.voluevich.calc.entity.User;
 import org.springframework.web.servlet.HandlerInterceptor;
