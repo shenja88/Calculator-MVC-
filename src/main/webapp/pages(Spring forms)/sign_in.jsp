@@ -10,7 +10,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>Registration</title>
+    <title>Sign In</title>
 </head>
 <body>
 <jsp:include page="_header.jsp"/>
@@ -20,14 +20,9 @@
             <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2 .5v2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5zm0 4v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zM4.5 9a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM4 12.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zM7.5 6a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM7 9.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm.5 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM10 6.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm.5 2.5a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5h-1z"></path>
         </svg>
         <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2 .5v2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5zm0 4v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zM4.5 9a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM4 12.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zM7.5 6a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM7 9.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm.5 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM10 6.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm.5 2.5a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5h-1z"></path>
-        <h1 class="display-3" align="center">Registration</h1>
+        <h1 class="display-3" align="center">Sign In</h1>
         <div class="col-sm-4 m5 bg-success p-2 text-dark bg-opacity-10 rounded">
-            <s:form method="post" action="/account/reg" modelAttribute="newUser">
-                <div>
-                    <s:label path="name" class="col-sm col-form-label">Name</s:label>
-                    <s:input path="name" class="form-control"/>
-                    <s:errors path="name" cssClass="result-item"/>
-                </div>
+            <s:form method="post" action="/account/signIn" modelAttribute="userEmailPassDTO">
                 <div>
                     <s:label path="email" class="col-sm col-form-label">Email</s:label>
                     <s:input path="email" class="form-control"/>
@@ -38,11 +33,11 @@
                     <s:input path="password" class="form-control"/>
                     <s:errors path="password" cssClass="result-item"/>
                 </div>
-                <s:button class="btn btn-primary m-2">Submit</s:button>
+                <s:button class="btn btn-primary m-2" >Submit</s:button>
             </s:form>
         </div>
     </div>
-    <c:if test="${message_reg != null}">
+    <c:if test="${message_auth != null}">
         <div class="row justify-content-center">
             <div class="col-sm-4">
                 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -61,7 +56,7 @@
                         <use href="#info-fill"></use>
                     </svg>
                     <div>
-                            ${message_reg}
+                            ${message_auth}
                     </div>
                 </div>
             </div>

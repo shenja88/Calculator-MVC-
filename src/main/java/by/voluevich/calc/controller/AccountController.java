@@ -28,12 +28,12 @@ public class AccountController {
 
     @GetMapping("/reg")
     public String regForms(Model model) {
-        model.addAttribute("newUser", new UserAllFieldsDTO());
+        model.addAttribute("userAllFieldsDTO", new UserAllFieldsDTO());
         return "registration";
     }
 
     @PostMapping("/reg")
-    public String getReg(@Valid @ModelAttribute("newUser") UserAllFieldsDTO userDTO, BindingResult bindingResult, Model model) {
+    public String getReg(@Valid @ModelAttribute("userAllFieldsDTO") UserAllFieldsDTO userDTO, BindingResult bindingResult, Model model) {
         if (!bindingResult.hasErrors()) {
             User user = DTOConverter.getUserAllField(userDTO);
             if (userService.saveUser(user)) {
@@ -48,12 +48,12 @@ public class AccountController {
 
     @GetMapping("/signIn")
     public String signInForm(Model model) {
-        model.addAttribute("newUser", new UserEmailPassDTO());
+        model.addAttribute("userEmailPassDTO", new UserEmailPassDTO());
         return "sign_in";
     }
 
     @PostMapping("/signIn")
-    public String getSignIn(@Valid @ModelAttribute("newUser") UserEmailPassDTO userDTO, BindingResult bindingResult, Model model, HttpSession session) {
+    public String getSignIn(@Valid @ModelAttribute("userEmailPassDTO") UserEmailPassDTO userDTO, BindingResult bindingResult, Model model, HttpSession session) {
         if(!bindingResult.hasErrors()) {
             User user = DTOConverter.getUserEmailPassFields(userDTO);
             if (userService.signIn(user)) {
